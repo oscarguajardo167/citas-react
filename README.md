@@ -1,4 +1,4 @@
-# citas-react
+# AGENDA DE CITAS VETERINARIA
 
 ### TERMINADO
 Practica con React para agendar, eliminar y editar citas de una veterinaria. Utilizando tecnologías como  tailwind.css y node.js.
