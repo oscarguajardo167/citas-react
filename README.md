@@ -3,4 +3,5 @@
 ### TERMINADO
 Practica con React para agendar, eliminar y editar citas de una veterinaria. Utilizando tecnologías como  tailwind.css y node.js.
 
-![image](https://user-images.githubusercontent.com/45528951/162600566-fe72b4f3-0051-4ae7-bf62-888fc4e597f0.png)
+![image](https://user-images.githubusercontent.com/45528951/163950822-f40cacbd-4e74-457e-9b8b-b8de5ff2ae4c.png)
+
