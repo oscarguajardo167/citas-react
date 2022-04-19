@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import React from 'react'
 import Error from './Error';
 
-function Formulario({setPacientes, pacientes}) {
+function Formulario({setPacientes, pacientes, paciente, setPaciente}) {
   const [nombre, setNombre] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
@@ -10,6 +10,20 @@ function Formulario({setPacientes, pacientes}) {
   const [sintomas, setSintomas] = useState('');
 
   const [error, setError] = useState(false);
+
+  //CHECA SI HAY CAMBIOS EN PACIENTE CUANDO SE EDITA Y LOS PONE EN SUS RESPECTIVAS CASILLAS
+  useEffect(() => {
+    if( Object.keys(paciente).length > 0){
+      setNombre(paciente.nombre);
+      setPropietario(paciente.propietario);
+      setEmail(paciente.email);
+      setFecha(paciente.fecha);
+      setSintomas(paciente.sintomas);
+    }
+  }, [paciente])
+  
+
+  
 
   // FUNCION CUANDO SE APRIETE EL BOTÓN
   const handleSubmit = (e)  =>{
@@ -32,20 +46,35 @@ function Formulario({setPacientes, pacientes}) {
           propietario,
           email,
           fecha,
-          sintomas,
-          id: generarId()
-    }
+          sintomas
+          }
 
-      // AGREGO EL OBJETO PACIENTES
-      setPacientes([...pacientes, objetoPaciente]);
+    //VERIFICANDO SI ESTAMOS EDITANDO
+      if(paciente.id){
+        //EDITANDO
+        objetoPaciente.id = paciente.id;
+        // ITERAR PARA VER QUE PACIENTE QUE REGISTRO ESTAMOS EDITANDO, SI LO ENCUENTRA ENTONCES RETORNA EL MODIFICADO
+        // SINO ENTONCES LO RETORNA TAL CUAL COMO ESTÁ
+        const pacientesActualizados = pacientes.map(pacienteState => 
+          pacienteState.id === paciente.id ? objetoPaciente : pacienteState);
+        // LO DEFINE
+        setPacientes(pacientesActualizados)
+        // VUELVE EL PACIENTE A UN OBJETO VACÍO
+        setPaciente({})
+      } else {
+        // AGREGO EL OBJETO PACIENTES
+        objetoPaciente.id = generarId();
+        setPacientes([...pacientes, objetoPaciente]);
+      }
+      
 
-      // REINICIO DE TODO
-      setError(false);
-      setNombre('');
-      setPropietario('');
-      setEmail('');
-      setFecha('');
-      setSintomas('');
+        // REINICIO DE TODO
+        setError(false);
+        setNombre('');
+        setPropietario('');
+        setEmail('');
+        setFecha('');
+        setSintomas('');
     } 
 
 
@@ -148,9 +177,10 @@ function Formulario({setPacientes, pacientes}) {
 
         <input
           type="submit"
-          value="Agregar Paciente"
-          className="bg-sky-600 w-full p-3 text-white uppercase font-bold 
-          hover:bg-sky-700 cursor-pointer transition-all"
+          value={ paciente.id ? "Editar Paciente" : "Agregar Paciente"} 
+          className={paciente.id ?
+            "bg-yellow-500 w-full hover:bg-yellow-600  p-3 text-white uppercase font-bold cursor-pointer transition-all" 
+             : "bg-sky-600 w-full hover:bg-sky-700  p-3 text-white uppercase font-bold cursor-pointer transition-all" }  
         />
       </form>
 
